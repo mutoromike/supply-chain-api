@@ -1,23 +1,23 @@
-# Use the official Node.js LTS image as the base image
-FROM node:14-alpine
+FROM node:16-alpine
 
-# Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
 
-# Install the dependencies
-RUN npm install --production
+RUN npm install -g @nestjs/cli
+# RUN npm install bcrypt
 
-# Copy the rest of the application files to the container
+RUN npm install --omit=dev
+
 COPY . .
 
-# Build the NestJS application (this assumes you have already built your application)
+ENV DATABASE_URL=file:./dev.db
+ENV JWT_SECRET_KEY=2#8k%xo=9hae8yv&88sci6bwr0*+6dp%*xig2&_bwdc623HJ%^889T
+
+RUN npx prisma generate
+RUN npx prisma migrate dev
+
 RUN npm run build
 
-# Expose the port on which your NestJS application is running
-EXPOSE 3000
 
-# Start the NestJS application in production mode
 CMD ["npm", "run", "start:prod"]

@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   nestjs-app:
     build:
@@ -7,9 +7,9 @@ services:
     image: nestjs-app
     container_name: nestjs-app
     ports:
-      - '3000:3000'
+      - "3001:3001"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgres://username:password@db:5432/nestjsdb
-    depends_on:
-      - db
+      - DATABASE_URL="file:./dev.db"
+      - JWT_SECRET_KEY="2#8k%xo=9hae8yv&88sci6bwr0*+6dp%*xig2&_bwdc623HJ%^889T"
+
